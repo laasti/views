@@ -1,0 +1,26 @@
+{
+    "name": "laasti/views",
+    "description": "A HTTP Message compatible template engine abstraction.",
+	"keywords": ["templates", "templating", "psr-7", "psr", "http", "message", "laasti"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sonia Marquette",
+            "email": "contact@nebulousweb.com"
+        }
+    ],
+    "require": {
+        "psr/http-message": "~1.0"
+    },
+    "require-dev": {
+        "zendframework/zend-diactoros": "1.3.3",
+        "mustache/mustache": "~2.9.0"
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Laasti\\Views\\": "src/"
+        }
+    }
+}
