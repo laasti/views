@@ -20,6 +20,7 @@ class Mustache implements TemplateEngineInterface
      */
     public function __construct(\Mustache_Engine $mustache, $locations = [], $extension = 'mustache')
     {
+        $this->mustache = $mustache;
         if (count($locations)) {
             $loaders = [];
             foreach ($locations as $location) {
@@ -27,7 +28,6 @@ class Mustache implements TemplateEngineInterface
             }
             $this->mustache->setLoader(new \Mustache_Loader_CascadingLoader($loaders));
         }
-        $this->mustache = $mustache;
         $this->extension = $extension;
     }
 
