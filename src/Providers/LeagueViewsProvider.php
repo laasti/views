@@ -7,7 +7,8 @@ class LeagueViewsProvider extends \League\Container\ServiceProvider\AbstractServ
 {
 
     protected $provides = [
-        'Laasti\\Data\ArrayData',
+        'Laasti\Views\Data\LazyData',
+        'Laasti\Views\Data\ArrayData',
         'Laasti\Views\Data\DataInterface',
         'Laasti\Views\Engines\Mustache',
         'Laasti\Views\Engines\PlainPhp',
@@ -15,11 +16,21 @@ class LeagueViewsProvider extends \League\Container\ServiceProvider\AbstractServ
         'Laasti\Views\TemplateRenderer',
         'Laasti\Views\TemplateStream'
     ];
+    
+    protected $defaultConfig = [
+        'data_class' => 'Laasti\Views\Data\ArrayData',
+        'data' => []
+    ];
 
     public function register()
     {
+        $config = $this->getConfig();
         $this->getContainer()->add('Laasti\Views\Data\ArrayData');
-        $this->getContainer()->add('Laasti\Views\Data\DataInterface', 'Laasti\Views\Data\ArrayData');
+        $arguments = [$config['data']];
+        if ($config['data_class'] === 'Laasti\Views\Data\LazyData') {
+            $arguments[] = 'Laasti\Lazydata\Resolvers\ResolverInterface';
+        }
+        $this->getContainer()->add('Laasti\Views\Data\DataInterface', $config['data_class'])->withArguments($arguments);
         if (class_exists('Mustache_Engine')) {
             $this->getContainer()->add('Laasti\Views\Engines\Mustache')->withArguments([
                 'Mustache_Engine'
@@ -44,4 +55,14 @@ class LeagueViewsProvider extends \League\Container\ServiceProvider\AbstractServ
              ->invokeMethod('setTemplateRenderer', ['Laasti\Views\TemplateRenderer']);
     }
         
+    protected function getConfig()
+    {
+        $config = $this->getContainer()->get('config');
+        
+        if (isset($config['views'])) {
+            return array_merge($this->defaultConfig, $config['views']);
+        }
+        
+        return $this->defaultConfig;
+    }
 }
