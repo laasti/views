@@ -34,7 +34,11 @@ class TemplateStream implements StreamInterface
      */
     public function __toString()
     {
-        return $this->getContents();
+        try {
+            return $this->getContents();
+        } catch (\Exception $e) {
+            return sprintf('%s: %s', get_class($e), $e->getMessage());
+        }
     }
 
     /**
