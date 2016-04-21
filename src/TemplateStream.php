@@ -13,6 +13,7 @@ use RuntimeException;
 class TemplateStream implements StreamInterface
 {
     protected $render;
+    protected $contents;
 
     public function __construct(TemplateRender $render)
     {
@@ -66,6 +67,7 @@ class TemplateStream implements StreamInterface
     public function attach(TemplateRender $render)
     {
         $this->render = $render;
+        $this->contents = null;
     }
 
     /**
@@ -73,7 +75,8 @@ class TemplateStream implements StreamInterface
      */
     public function getSize()
     {
-        return null;
+        $this->contents = $this->getContents();
+        return mb_strlen($this->contents);
     }
 
     /**
@@ -157,6 +160,9 @@ class TemplateStream implements StreamInterface
      */
     public function getContents()
     {
+        if ($this->contents) {
+            return $this->contents;
+        }
         //TODO
         $render = $this->detach();
         return $render ? $render->render() : '';
