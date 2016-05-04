@@ -56,7 +56,7 @@ class LeagueViewsProvider extends \League\Container\ServiceProvider\AbstractServ
             'Laasti\Views\Engines\TemplateEngineInterface',
             'Laasti\Views\Template'
         ]);
-        $this->getContainer()->add('Laasti\Views\TemplateRenderer')->withArguments([
+        $this->getContainer()->share('Laasti\Views\TemplateRenderer')->withArguments([
             'Laasti\Views\Data\DataInterface'
         ])->withMethodCall('addEngine', ['Laasti\Views\Engines\TemplateEngineInterface']);
     }
