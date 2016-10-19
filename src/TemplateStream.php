@@ -76,7 +76,7 @@ class TemplateStream implements StreamInterface
     public function getSize()
     {
         $this->contents = $this->getContents();
-        return mb_strlen($this->contents);
+        return strlen($this->contents);
     }
 
     /**
