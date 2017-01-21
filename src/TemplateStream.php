@@ -19,6 +19,7 @@ class TemplateStream implements StreamInterface
     {
         $this->render = $render;
     }
+
     /**
      * Reads all data from the stream into a string, from the beginning to end.
      *
@@ -43,11 +44,20 @@ class TemplateStream implements StreamInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the remaining contents in a string
+     *
+     * @return string
+     * @throws RuntimeException if unable to read or an error occurs while
+     *     reading.
      */
-    public function close()
+    public function getContents()
     {
-        $this->render = null;
+        if ($this->contents) {
+            return $this->contents;
+        }
+        //TODO
+        $render = $this->detach();
+        return $render ? $render->render() : '';
     }
 
     /**
@@ -58,6 +68,14 @@ class TemplateStream implements StreamInterface
         $render = $this->render;
         $this->render = null;
         return $render;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function close()
+    {
+        $this->render = null;
     }
 
     /**
@@ -85,14 +103,6 @@ class TemplateStream implements StreamInterface
     public function tell()
     {
         throw new RuntimeException('Cannot seek position of a TemplateStream');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function eof()
-    {
-        return empty($this->renderer);
     }
 
     /**
@@ -152,23 +162,6 @@ class TemplateStream implements StreamInterface
     }
 
     /**
-     * Returns the remaining contents in a string
-     *
-     * @return string
-     * @throws RuntimeException if unable to read or an error occurs while
-     *     reading.
-     */
-    public function getContents()
-    {
-        if ($this->contents) {
-            return $this->contents;
-        }
-        //TODO
-        $render = $this->detach();
-        return $render ? $render->render() : '';
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getMetadata($key = null)
@@ -187,4 +180,11 @@ class TemplateStream implements StreamInterface
         return $metadata[$key];
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function eof()
+    {
+        return empty($this->renderer);
+    }
 }

@@ -14,5 +14,4 @@ class ArrayDataTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($data->get('test', 5) === 2);
         $this->assertTrue($data->get('test2', 5) === 5);
     }
-
 }

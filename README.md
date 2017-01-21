@@ -1,49 +1,81 @@
-# Laasti/views
+# Laasti / Views
 
-A HTTP Message compatible template engine abstraction. Provides a TemplateStream that can be attached to HTTP Message's Response.
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Software License][ico-license]](LICENSE.md)
+[![Build Status][ico-travis]][link-travis]
+[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
+[![Quality Score][ico-code-quality]][link-code-quality]
+[![Total Downloads][ico-downloads]][link-downloads]
 
-Only support PHP and Mustache (bobthecow/mustache.php) templates for the moment, PRs are welcome to add more engines.
+This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
+PSRs you support to avoid any confusion with users and contributors.
 
-## Installation
+## Structure
+
+If any of the following are applicable to your project, then the directory structure should follow industry best practises by being named the following.
 
 ```
-composer require laasti/views
+bin/        
+config/
+src/
+tests/
+vendor/
+```
+
+
+## Install
+
+Via Composer
+
+``` bash
+$ composer require laasti/views
 ```
 
 ## Usage
 
-```php
-$renderer = new \Laasti\Views\TemplateRenderer;
-//You can add many engines to support multiple template types
-$renderer->addEngine(new \Laasti\Views\Engines\PlainPhp([/*View directory*/]));
-//You can set global data to pass on to all template
-$renderer->setData('sitename', 'Hello world!');
-//Or you can pass data only to one template
-$template = new \Laasti\Views\Template("template-name.php", new \Laasti\Views\Data\ArrayData(['title' => 'Hello world!']));
-//attackStream will create a TemplateStream and attach it to the response's body
-$response = $renderer->attachStream($response, $template);
-
-//The title and sitename will be available as $title and $sitename in the template
-
+``` php
+$skeleton = new League\Skeleton();
+echo $skeleton->echoPhrase('Hello, League!');
 ```
 
+## Change log
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+
+## Testing
+
+``` bash
+$ composer test
+```
 
 ## Contributing
 
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
 
-## History
+## Security
 
-See Github's releases or tags
+If you discover any security related issues, please email contact@nebulousweb.com instead of using the issue tracker.
 
 ## Credits
 
-Author: Sonia Marquette (@nebulousGirl)
+- [Sonia Marquette][link-author]
+- [All Contributors][link-contributors]
 
 ## License
 
-Released under the MIT License. See LICENSE.txt file.
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+[ico-version]: https://img.shields.io/packagist/v/laasti/views.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/laasti/views/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/laasti/views.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/laasti/views.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/laasti/views.svg?style=flat-square
+
+[link-packagist]: https://packagist.org/packages/laasti/views
+[link-travis]: https://travis-ci.org/laasti/views
+[link-scrutinizer]: https://scrutinizer-ci.com/g/laasti/views/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/laasti/views
+[link-downloads]: https://packagist.org/packages/laasti/views
+[link-author]: https://github.com/nebulousGirl
+[link-contributors]: ../../contributors

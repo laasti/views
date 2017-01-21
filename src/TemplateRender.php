@@ -57,7 +57,4 @@ class TemplateRender
     {
         return $this->engine->render($this->template);
     }
-
-
-
 }
