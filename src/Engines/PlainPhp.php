@@ -61,12 +61,12 @@ class PlainPhp implements TemplateEngineInterface
     {
         $filepath = $this->findTemplateFile($template->getView());
         if ($template->getData() instanceof \Laasti\Views\Data\DataInterface) {
-            $array = $template->getData()->export();
-            extract($array);
+            $data = $template->getData()->toArray();
         } else {
-            foreach ($template->getData() as $key => $value) {
-                ${$key} = $value;
-            }
+            $data = $template->getData();
+        }
+        foreach ($data as $key => $value) {
+            ${$key} = $value;
         }
         ob_start();
         include $filepath;
