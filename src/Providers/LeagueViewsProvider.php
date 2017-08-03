@@ -34,7 +34,7 @@ class LeagueViewsProvider extends \League\Container\ServiceProvider\AbstractServ
             if (!$this->getContainer()->has('Mustache_Engine')) {
                 $this->getContainer()->add('Mustache_Engine');
             }
-            $this->getContainer()->add('Laasti\Views\Engines\Mustache', function($engine, $locations, $partials) {
+            $this->getContainer()->add('Laasti\Views\Engines\Mustache', function ($engine, $locations, $partials) {
                 $loaders = [];
                 foreach ($partials as $partial_location) {
                     $loaders[] = new \Mustache_Loader_FilesystemLoader($partial_location);
@@ -42,10 +42,12 @@ class LeagueViewsProvider extends \League\Container\ServiceProvider\AbstractServ
                 $engine->setPartialsLoader(new \Mustache_Loader_CascadingLoader($loaders));
                 return new \Laasti\Views\Engines\Mustache($engine, $locations);
             })->withArguments([
-                'Mustache_Engine', $this->getContainer()->get('config')['views']['locations'], $this->getContainer()->get('config')['views']['partial_locations']
+                'Mustache_Engine',
+                $this->getContainer()->get('config')['views']['locations'],
+                $this->getContainer()->get('config')['views']['partial_locations']
             ]);
         }
-        $this->getContainer()->add('Laasti\Views\Engines\TemplateEngineInterface', function($engine) {
+        $this->getContainer()->add('Laasti\Views\Engines\TemplateEngineInterface', function ($engine) {
             return $engine;
         })->withArgument($config['engine_class']);
         $this->getContainer()->add('Laasti\Views\Template');
@@ -61,12 +63,6 @@ class LeagueViewsProvider extends \League\Container\ServiceProvider\AbstractServ
         ])->withMethodCall('addEngine', ['Laasti\Views\Engines\TemplateEngineInterface']);
     }
 
-    public function boot()
-    {
-        $this->getContainer()->inflector('Laasti\Views\TemplateRendererAwareInterface')
-                ->invokeMethod('setTemplateRenderer', ['Laasti\Views\TemplateRenderer']);
-    }
-
     protected function getConfig()
     {
         $config = $this->getContainer()->get('config');
@@ -78,4 +74,9 @@ class LeagueViewsProvider extends \League\Container\ServiceProvider\AbstractServ
         return $this->defaultConfig;
     }
 
+    public function boot()
+    {
+        $this->getContainer()->inflector('Laasti\Views\TemplateRendererAwareInterface')
+            ->invokeMethod('setTemplateRenderer', ['Laasti\Views\TemplateRenderer']);
+    }
 }

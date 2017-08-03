@@ -2,7 +2,6 @@
 
 namespace Laasti\Views\Engines;
 
-use Laasti\Views\Engines\TemplateEngineInterface;
 use Laasti\Views\Exceptions\TemplateNotFoundException;
 
 /**
@@ -76,28 +75,6 @@ class PlainPhp implements TemplateEngineInterface
     }
 
     /**
-     *
-     * @param \Laasti\Views\Template $template
-     * @return bool
-     */
-    public function canRender(\Laasti\Views\Template $template)
-    {
-        return pathinfo($template->getView(), PATHINFO_EXTENSION) === $this->getExtension();
-    }
-
-    public function getExtension()
-    {
-        return $this->extension;
-    }
-
-    public function setExtension($extension)
-    {
-        $this->extension = $extension;
-        return $this;
-    }
-
-
-    /**
      * Finds the file by looping through locations
      * @param string $file
      * @return string
@@ -107,7 +84,7 @@ class PlainPhp implements TemplateEngineInterface
     {
         //Add missing extension
         $ext = pathinfo($file, PATHINFO_EXTENSION);
-        $file = ($ext === '') ? $file . '.'.$this->getExtension() : $file;
+        $file = ($ext === '') ? $file . '.' . $this->getExtension() : $file;
 
         $found = false;
         foreach ($this->locations as $location) {
@@ -125,4 +102,24 @@ class PlainPhp implements TemplateEngineInterface
         return $file;
     }
 
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+        return $this;
+    }
+
+    /**
+     *
+     * @param \Laasti\Views\Template $template
+     * @return bool
+     */
+    public function canRender(\Laasti\Views\Template $template)
+    {
+        return pathinfo($template->getView(), PATHINFO_EXTENSION) === $this->getExtension();
+    }
 }

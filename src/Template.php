@@ -36,6 +36,4 @@ class Template
         $new->data = $data;
         return $new;
     }
-
-
 }

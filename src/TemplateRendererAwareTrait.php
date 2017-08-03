@@ -6,19 +6,9 @@ trait TemplateRendererAwareTrait
 {
     /**
      *
-     * @var \Laasti\Views\TemplateRenderer 
+     * @var \Laasti\Views\TemplateRenderer
      */
     protected $templateRenderer;
-
-    /**
-     * 
-     * @param \Laasti\Views\TemplateRenderer $templateRenderer
-     */
-    public function setTemplateRenderer(TemplateRenderer $templateRenderer)
-    {
-        $this->templateRenderer = $templateRenderer;
-        return $this;
-    }
 
     /**
      *
@@ -27,5 +17,15 @@ trait TemplateRendererAwareTrait
     public function getTemplateRenderer()
     {
         return $this->templateRenderer;
+    }
+
+    /**
+     *
+     * @param \Laasti\Views\TemplateRenderer $templateRenderer
+     */
+    public function setTemplateRenderer(TemplateRenderer $templateRenderer)
+    {
+        $this->templateRenderer = $templateRenderer;
+        return $this;
     }
 }

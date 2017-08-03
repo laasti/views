@@ -28,6 +28,16 @@ class TemplateRenderer
         return $this->getEngineForTemplate($template)->render($template);
     }
 
+    public function getEngineForTemplate(Template $template)
+    {
+        foreach ($this->engines as $engine) {
+            if ($engine->canRender($template)) {
+                return $engine;
+            }
+        }
+        throw new TemplateNotFoundException('The template could not be rendered by any engine: ' . $template->getView());
+    }
+
     public function renderView($view, DataInterface $data = null)
     {
         if (is_null($data)) {
@@ -41,28 +51,19 @@ class TemplateRenderer
     public function attachStream(ResponseInterface $response, Template $template)
     {
         $template = $template->withData($this->data->withData($template->getData()));
-        return $response->withBody(new TemplateStream(new TemplateRender($this->getEngineForTemplate($template), $template)));
+        return $response->withBody(new TemplateStream(new TemplateRender($this->getEngineForTemplate($template),
+            $template)));
     }
 
-    public function getEngineForTemplate(Template $template)
+    public function getData($property, $default = null)
     {
-        foreach ($this->engines as $engine) {
-            if ($engine->canRender($template)) {
-                return $engine;
-            }
-        }
-        throw new TemplateNotFoundException('The template could not be rendered by any engine: '.$template->getView());
+        return $this->data->get($property, $default);
     }
 
     public function setData($property, $value)
     {
         $this->data->set($property, $value);
         return $this;
-    }
-    
-    public function getData($property, $default = null)
-    {
-        return $this->data->get($property, $default);
     }
 
     public function hasData($property)

@@ -2,7 +2,6 @@
 
 namespace Laasti\Views\Engines;
 
-use Laasti\Views\Engines\TemplateEngineInterface;
 use Laasti\Views\Exceptions\TemplateNotFoundException;
 
 /**
@@ -40,7 +39,7 @@ class Mustache implements TemplateEngineInterface
     {
         $loader = new \Mustache_Loader_FilesystemLoader($location);
         if ($this->mustache->getLoader() instanceof \Mustache_Loader_CascadingLoader) {
-            $this->mustache->getLoader()->addLoader( $loader);
+            $this->mustache->getLoader()->addLoader($loader);
         } else {
             $loaders = [$this->mustache->getLoader(), $loader];
             $this->mustache->setLoader(new \Mustache_Loader_CascadingLoader($loaders));
@@ -90,7 +89,7 @@ class Mustache implements TemplateEngineInterface
     {
         //Add missing extension
         $ext = pathinfo($file, PATHINFO_EXTENSION);
-        $file = ($ext === '') ? $file . '.'.$this->getExtension() : $file;
+        $file = ($ext === '') ? $file . '.' . $this->getExtension() : $file;
 
         $found = false;
         foreach ($this->locations as $location) {
@@ -107,5 +106,4 @@ class Mustache implements TemplateEngineInterface
 
         return $file;
     }
-
 }
